@@ -17,6 +17,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void init();
+signals:
+    void writeSocket(QByteArray);
 
 private slots:
     void on_pushButton_clicked();

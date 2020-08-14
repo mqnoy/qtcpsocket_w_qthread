@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QTcpSocket>
 #include <QtNetwork>
+#include <QHash>
 
 class UpdataServerThread : public QThread
 {

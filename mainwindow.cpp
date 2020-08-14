@@ -16,7 +16,7 @@ MainWindow::~MainWindow()
 void MainWindow::init()
 {
     userver = new UpdataServer();
-    if(!userver->listen(QHostAddress::Any,8888)){
+    if(!userver->listen(QHostAddress::Any,16385)){
         QMessageBox::critical(this,
                               tr("Updata Server"),
                               tr("Unable to start the server: %1.").
@@ -24,13 +24,18 @@ void MainWindow::init()
         close();
         return;
     }else{
-        qDebug()<<"updataserver is Listening on 8888";
+        qDebug()<<"updataserver is Listening on 16385";
     }
+
+    connect(this, &MainWindow::writeSocket, userver, &UpdataServer::writeCommand);
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString str = "{\"timestamp\":"+QString::number(QDateTime::currentSecsSinceEpoch())+"}\r\n";
+    //    QString str = "{\"timestamp\":"+QString::number(QDateTime::currentSecsSinceEpoch())+"}\r\n";
+    QString str = "test command";
     QByteArray data = str.toUtf8();
-    userver->writeCommand(data);
+    writeSocket(data);
+    //qDebug()<<"MainWindow::on_pushButton_clicked() => current thread :"<<QThread::currentThread();
+
 }
